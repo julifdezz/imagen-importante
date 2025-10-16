@@ -6,24 +6,41 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 
-// Endpoint que devuelve las dimensiones de la imagen
 app.get('/imagen/dimensiones', async (req, res) => {
   try {
-    // ✅ URL de la imagen que querés analizar
     const imageUrl = 'https://chl-4768d488-9429-490c-8813-c50c1a063834-imagen-importante.softwareseguro.com.ar/profile-pic';
 
-    // Descargar imagen como buffer binario
+    // 🔍 Descarga la imagen con axios
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+
+    // ⚠️ Verificamos el tipo de contenido
+    const contentType = response.headers['content-type'];
+    console.log('🧾 Content-Type recibido:', contentType);
+
+    if (!contentType || !contentType.startsWith('image/')) {
+      return res.status(400).json({
+        error: 'La URL no devolvió una imagen válida.',
+        contentType,
+      });
+    }
+
     const buffer = Buffer.from(response.data);
 
-    // Calcular dimensiones
+    // ⚠️ Si el buffer está vacío, también lo reportamos
+    if (!buffer || buffer.length === 0) {
+      return res.status(400).json({
+        error: 'No se pudo obtener contenido de la imagen (buffer vacío).',
+      });
+    }
+
+    // ✅ Obtener dimensiones
     const dimensions = sizeOf(buffer);
 
-    // Responder con JSON
     res.json({
       ancho: dimensions.width,
       alto: dimensions.height,
       tipo: dimensions.type,
+      contentType,
     });
 
   } catch (error) {
@@ -35,7 +52,6 @@ app.get('/imagen/dimensiones', async (req, res) => {
   }
 });
 
-// Configuración del puerto para Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en puerto ${PORT}`);
