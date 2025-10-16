@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mostrar dimensiones de la imagen</title>
+    <meta charset="UTF-8" />
+    <title>Imagen y tamaño</title>
 </head>
 <body>
-  <h1>Imagen y sus dimensiones</h1>
+    <h1>Imagen con src</h1>
+    <img id="imagen" src="https://via.placeholder.com/300x150" alt="Imagen de ejemplo" />
 
-  <img id="imagen" src="https://chl-4768d488-9429-490c-8813-c50c1a063834-imagen-importante.softwareseguro.com.ar/profile-pic" alt="Imagen Importante" />
+    <button onclick="enviarImagen()">Enviar src al backend</button>
 
-  <p id="dimensiones">Cargando dimensiones...</p>
+    <div id="resultado"></div>
 
-  <script>
-    // Cambiá esta URL si el backend corre en otro lugar o puerto
-    const url = 'https://imagen-importante.onrender.com/imagen/dimensiones';
+    <script>
+        async function enviarImagen() {
+            const img = document.getElementById('imagen');
+            const src = img.src;
 
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('dimensiones').innerText =
-          `Ancho: ${data.ancho}px, Alto: ${data.alto}px, Tipo: ${data.tipo}`;
-      })
-      .catch(error => {
-        document.getElementById('dimensiones').innerText = 'Error al obtener dimensiones.';
-        console.error('Error:', error);
-      });
-  </script>
+            const response = await fetch('http://localhost:3000/obtener-tamano', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ src })
+            });
+
+            const data = await response.json();
+            document.getElementById('resultado').innerText = `Ancho: ${data.width}px, Alto: ${data.height}px`;
+        }
+    </script>
 </body>
 </html>
