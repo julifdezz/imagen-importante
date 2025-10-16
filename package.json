@@ -2,10 +2,10 @@
   "name": "image-size-backend",
   "version": "1.0.0",
   "description": "Backend simple para recibir tamaño de imagen",
-  "main": "backend.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node backend.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
