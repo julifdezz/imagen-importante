@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mostrar dimensiones de la imagen</title>
+</head>
+<body>
+  <h1>Imagen y sus dimensiones</h1>
+
+  <img id="imagen" src="https://chl-4768d488-9429-490c-8813-c50c1a063834-imagen-importante.softwareseguro.com.ar/profile-pic" alt="Imagen Importante" />
+
+  <p id="dimensiones">Cargando dimensiones...</p>
+
+  <script>
+    // Cambiá esta URL si el backend corre en otro lugar o puerto
+    const url = 'https://imagen-importante.onrender.com/imagen/dimensiones';
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('dimensiones').innerText =
+          `Ancho: ${data.ancho}px, Alto: ${data.alto}px, Tipo: ${data.tipo}`;
+      })
+      .catch(error => {
+        document.getElementById('dimensiones').innerText = 'Error al obtener dimensiones.';
+        console.error('Error:', error);
+      });
+  </script>
+</body>
+</html>
