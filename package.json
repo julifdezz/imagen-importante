@@ -1,15 +1,16 @@
 {
-  "name": "imagen-dimensiones-backend",
+  "name": "image-size-backend",
   "version": "1.0.0",
+  "description": "Backend simple para recibir tamaño de imagen",
+  "main": "backend.js",
   "type": "module",
-  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node backend.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.0",
-    "cors": "^2.8.5",
-    "express": "^4.19.0",
-    "image-size": "^1.0.2"
+    "express": "^4.18.2"
   }
 }
